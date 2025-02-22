@@ -1,0 +1,27 @@
+name: Wundertest
+
+on:
+  deployment_status:
+jobs:
+  wundertest:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    
+    env:
+      WUNDERTEST_TOKEN: ${{ secrets.WUNDERTEST_TOKEN }}
+      WUNDERTEST_ORG_ID: org_2tOOku8AvOoMtlk6DkacYaW8YYO
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Wundertest CLI
+        run: npm install -g wundertest
+
+      - name: Run Wundertest Tests
+        run: |
+          wundertest run --base-url ${{ github.event.deployment_status.environment_url }}
