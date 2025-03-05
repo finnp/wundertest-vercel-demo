@@ -1,0 +1,22 @@
+name: Run Wundertest Tests
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run-wundertest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Wundertest API call
+        run: |
+          curl -X POST "https://qa-ai-backend.karugamo.de/api/test-runs" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.WUNDERTEST_TOKEN }}" \
+            -d '{
+              "organizationId": "${{ secrets.WUNDERTEST_ORG_ID }}",
+              "testCaseIds": null
+            }'
+        env:
+          WUNDERTEST_TOKEN: ${{ secrets.WUNDERTEST_TOKEN }}
+          WUNDERTEST_ORG_ID: ${{ secrets.WUNDERTEST_ORG_ID }}
