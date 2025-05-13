@@ -28,7 +28,7 @@ export default function Calculator() {
           result = prevValue + currentValue;
           break;
         case "-":
-          result = prevValue - currentValue;
+          result = prevValue + currentValue;
           break;
         case "*":
           result = prevValue * currentValue;
